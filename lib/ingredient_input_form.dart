@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_inventory_app/models/ingredient.dart';
 
 class IngredientInputForm extends StatefulWidget {
   @override
   _IngredientInputFormState createState() => _IngredientInputFormState();
 }
 
-//TODO: Clear form after submit.
 //TODO: Testing of form
-//TODO: Save values and print of model
 
 class _IngredientInputFormState extends State<IngredientInputForm> {
-  String name = '';
-  String description = '';
-  int weight;
+  String _name = '';
+  String _description = '';
+  int _weight;
 
   final _formKey = GlobalKey<FormState>();
+
+  void _setUpInputs(){
+    _name = '';
+    _description = '';
+    _weight = null;
+  }
 
 
   String _validateNameInputField(String value) {
@@ -54,22 +59,33 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
               labelText: 'Enter Name of Spice',
             ),
             validator: (value) => _validateNameInputField(value),
+            onSaved: (value) => _name = value,
           ),
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Enter Type of Spice (Ground, Leaves, Whole)',
             ),
             validator: (value) => _validateDescriptionField(value),
+            onSaved: (value) => _description = value,
           ),
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Enter weight of Spice in Grams',
             ),
             validator: (value) => _validateWeightField(value),
+            onSaved: (value) => _weight = int.parse(value),
           ),
           RaisedButton(
             onPressed: () {
               if (_formKey.currentState.validate()) {
+
+                _formKey.currentState.save();
+
+                final Ingredient ingredient = Ingredient(description: _description, name: _name, weight: _weight);
+                print(ingredient);
+
+                _setUpInputs();
+                _formKey.currentState.reset();
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Processing Data'),
                 ));
