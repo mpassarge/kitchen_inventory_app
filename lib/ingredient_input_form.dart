@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_inventory_app/models/ingredient.dart';
 
 class IngredientInputForm extends StatefulWidget {
+  const IngredientInputForm({Key key}) : super(key: key);
+
+  static const String nameInputKeyString = 'IngredientInputName';
+  static const String descriptionInputKeyString = 'IngredientInputDescription';
+  static const String weightInputKeyString = 'IngredientInputWeight';
+  static const String submitButtonInputKeyString =
+      'IngredientInputSubmitButton';
+
   @override
   _IngredientInputFormState createState() => _IngredientInputFormState();
 }
@@ -15,12 +23,11 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
 
   final _formKey = GlobalKey<FormState>();
 
-  void _setUpInputs(){
+  void _setUpInputs() {
     _name = '';
     _description = '';
     _weight = null;
   }
-
 
   String _validateNameInputField(String value) {
     if (value.isEmpty) {
@@ -42,7 +49,7 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
     }
     try {
       int.parse(value);
-    }catch(e){
+    } catch (e) {
       return 'Enter a valid number';
     }
     return null;
@@ -55,6 +62,7 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            key: Key(IngredientInputForm.nameInputKeyString),
             decoration: InputDecoration(
               labelText: 'Enter Name of Spice',
             ),
@@ -62,6 +70,7 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
             onSaved: (value) => _name = value,
           ),
           TextFormField(
+            key: Key(IngredientInputForm.descriptionInputKeyString),
             decoration: InputDecoration(
               labelText: 'Enter Type of Spice (Ground, Leaves, Whole)',
             ),
@@ -69,6 +78,7 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
             onSaved: (value) => _description = value,
           ),
           TextFormField(
+            key: Key(IngredientInputForm.weightInputKeyString),
             decoration: InputDecoration(
               labelText: 'Enter weight of Spice in Grams',
             ),
@@ -76,12 +86,13 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
             onSaved: (value) => _weight = int.parse(value),
           ),
           RaisedButton(
+            key: Key(IngredientInputForm.submitButtonInputKeyString),
             onPressed: () {
               if (_formKey.currentState.validate()) {
-
                 _formKey.currentState.save();
 
-                final Ingredient ingredient = Ingredient(description: _description, name: _name, weight: _weight);
+                final Ingredient ingredient = Ingredient(
+                    description: _description, name: _name, weight: _weight);
                 print(ingredient);
 
                 _setUpInputs();
