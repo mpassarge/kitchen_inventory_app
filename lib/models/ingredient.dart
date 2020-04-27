@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Ingredient {
   String description;
   String name;
-  int weight;
+  double weight;
 
   Ingredient({@required this.description, @required this.name, @required this.weight});
 

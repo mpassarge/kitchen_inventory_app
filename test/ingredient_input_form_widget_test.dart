@@ -9,26 +9,84 @@ void main() {
     ),
   );
 
-  testWidgets('Successfully submit form', (WidgetTester tester) async {
-    await tester.pumpWidget(app);
+  final Finder nameInputFinder =
+      find.byKey(Key(IngredientInputForm.nameInputKeyString));
+  final Finder descriptionInputFinder =
+      find.byKey(Key(IngredientInputForm.descriptionInputKeyString));
+  final Finder weightInputFinder =
+      find.byKey(Key(IngredientInputForm.weightInputKeyString));
+  final Finder submitInputFinder =
+      find.byKey(Key(IngredientInputForm.submitButtonInputKeyString));
 
-    final Finder name = find.byKey(Key(IngredientInputForm.nameInputKeyString));
-    final Finder description =
-        find.byKey(Key(IngredientInputForm.descriptionInputKeyString));
-    final Finder weight =
-        find.byKey(Key(IngredientInputForm.weightInputKeyString));
-    final Finder submit =
-        find.byKey(Key(IngredientInputForm.submitButtonInputKeyString));
+  testWidgets('Successfully submit input form', (WidgetTester tester) async {
+    await tester.pumpWidget(app);
 
     expect(find.text('Processing Data'), findsNothing);
 
-    await tester.enterText(name, 'Basil');
-    await tester.enterText(description, 'Ground');
-    await tester.enterText(weight, '28');
+    await tester.enterText(nameInputFinder, 'Basil');
+    await tester.enterText(descriptionInputFinder, 'Ground');
+    await tester.enterText(weightInputFinder, '28');
 
-    await tester.tap(submit);
+    await tester.tap(submitInputFinder);
     await tester.pump();
 
     expect(find.text('Processing Data'), findsOneWidget);
+  });
+
+  testWidgets('Fail for not having a name', (WidgetTester tester) async {
+    await tester.pumpWidget(app);
+
+    expect(find.text('Processing Data'), findsNothing);
+
+    await tester.enterText(descriptionInputFinder, 'Ground');
+    await tester.enterText(weightInputFinder, '28.3');
+
+    await tester.tap(submitInputFinder);
+    await tester.pump();
+
+    expect(find.text('Name cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Fail for not having a description', (WidgetTester tester) async {
+    await tester.pumpWidget(app);
+
+    expect(find.text('Processing Data'), findsNothing);
+
+    await tester.enterText(nameInputFinder, 'Basil');
+    await tester.enterText(weightInputFinder, '28.3');
+
+    await tester.tap(submitInputFinder);
+    await tester.pump();
+
+    expect(find.text('Description cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Fail for not having a weight', (WidgetTester tester) async {
+    await tester.pumpWidget(app);
+
+    expect(find.text('Processing Data'), findsNothing);
+
+    await tester.enterText(nameInputFinder, 'Basil');
+    await tester.enterText(descriptionInputFinder, 'Ground');
+
+    await tester.tap(submitInputFinder);
+    await tester.pump();
+
+    expect(find.text('Weight cannot be empty'), findsOneWidget);
+  });
+
+  testWidgets('Fail for not having a number weight', (WidgetTester tester) async {
+    await tester.pumpWidget(app);
+
+    expect(find.text('Processing Data'), findsNothing);
+
+    await tester.enterText(nameInputFinder, 'Basil');
+    await tester.enterText(descriptionInputFinder, 'Ground');
+    await tester.enterText(weightInputFinder, 'Five');
+
+    await tester.tap(submitInputFinder);
+    await tester.pump();
+
+    expect(find.text('Weight must be a valid number'), findsOneWidget);
   });
 }

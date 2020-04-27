@@ -19,7 +19,7 @@ class IngredientInputForm extends StatefulWidget {
 class _IngredientInputFormState extends State<IngredientInputForm> {
   String _name = '';
   String _description = '';
-  int _weight;
+  double _weight;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -31,26 +31,26 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
 
   String _validateNameInputField(String value) {
     if (value.isEmpty) {
-      return 'Enter some text';
+      return 'Name cannot be empty';
     }
     return null;
   }
 
   String _validateDescriptionField(String value) {
     if (value.isEmpty) {
-      return 'Enter some text';
+      return 'Description cannot be empty';
     }
     return null;
   }
 
   String _validateWeightField(String value) {
     if (value.isEmpty) {
-      return 'Enter some numbers';
+      return 'Weight cannot be empty';
     }
     try {
-      int.parse(value);
+      double.parse(value);
     } catch (e) {
-      return 'Enter a valid number';
+      return 'Weight must be a valid number';
     }
     return null;
   }
@@ -83,7 +83,7 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
               labelText: 'Enter weight of Spice in Grams',
             ),
             validator: (value) => _validateWeightField(value),
-            onSaved: (value) => _weight = int.parse(value),
+            onSaved: (value) => _weight =  double.parse(value),
           ),
           RaisedButton(
             key: Key(IngredientInputForm.submitButtonInputKeyString),
