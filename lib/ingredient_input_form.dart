@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_inventory_app/Ingredient_Dao.dart';
 import 'package:kitchen_inventory_app/models/ingredient.dart';
 
 class IngredientInputForm extends StatefulWidget {
@@ -13,8 +14,6 @@ class IngredientInputForm extends StatefulWidget {
   @override
   _IngredientInputFormState createState() => _IngredientInputFormState();
 }
-
-//TODO: Testing of form
 
 class _IngredientInputFormState extends State<IngredientInputForm> {
   String _name = '';
@@ -94,7 +93,8 @@ class _IngredientInputFormState extends State<IngredientInputForm> {
                 final Ingredient ingredient = Ingredient(
                     description: _description, name: _name, weight: _weight);
                 print(ingredient);
-
+                IngredientDao dao = IngredientDao();
+                dao.insertIngredient(ingredient);
                 _setUpInputs();
                 _formKey.currentState.reset();
                 Scaffold.of(context).showSnackBar(SnackBar(

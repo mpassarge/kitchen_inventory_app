@@ -7,6 +7,18 @@ class Ingredient {
 
   Ingredient({@required this.description, @required this.name, @required this.weight});
 
+  factory Ingredient.fromJson(Map<String, dynamic> json) => Ingredient(
+    description: json['description'],
+    name: json['name'],
+    weight: json['weight']
+  );
+
+  Map<String, dynamic> toJson() => {
+    "description": description,
+    "name": name,
+    "weight": weight
+  };
+
   @override
   String toString() {
     return """
