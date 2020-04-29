@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_inventory_app/Ingredient_Dao.dart';
 import 'package:kitchen_inventory_app/models/ingredient.dart';
 
+//TODO: Transform weight to be all same length. One tenth.
+//TODO: Make sure duplicates name and descriptions cannot be added
+
 class IngredientInputForm extends StatefulWidget {
   const IngredientInputForm({Key key}) : super(key: key);
 
